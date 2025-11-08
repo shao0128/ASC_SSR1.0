@@ -1,4 +1,5 @@
 .\objects\encoder.o: Hardware\Encoder.c
+.\objects\encoder.o: Hardware\Encoder.h
 .\objects\encoder.o: .\Start\stm32f10x.h
 .\objects\encoder.o: .\Start\core_cm3.h
 .\objects\encoder.o: D:\keil5\ARM\ARMCC\Bin\..\include\stdint.h
@@ -28,4 +29,3 @@
 .\objects\encoder.o: .\Library\stm32f10x_usart.h
 .\objects\encoder.o: .\Library\stm32f10x_wwdg.h
 .\objects\encoder.o: .\Library\misc.h
-.\objects\encoder.o: Hardware\Encoder.h
