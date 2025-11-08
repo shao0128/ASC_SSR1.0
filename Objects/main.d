@@ -31,7 +31,6 @@
 .\objects\main.o: .\System\Delay.h
 .\objects\main.o: .\Hardware\OLED.h
 .\objects\main.o: .\Hardware\OLED_Data.h
-.\objects\main.o: .\Hardware\LED.h
 .\objects\main.o: .\System\Timer.h
 .\objects\main.o: .\Hardware\Key.h
 .\objects\main.o: .\Hardware\Motor.h
