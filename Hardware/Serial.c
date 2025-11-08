@@ -1,7 +1,7 @@
 #include "stm32f10x.h"                  // Device header
 #include <stdio.h>
 #include <stdarg.h>
-
+#include <string.h>
 char Serial_RxPacket[100];				//定义接收数据包数组，数据包格式"@MSG\r\n"
 uint8_t Serial_RxFlag;					//定义接收数据包标志位
 
@@ -163,27 +163,35 @@ void Serial_Printf(char *format, ...)
   */
 void USART1_IRQHandler(void)
 {
-    static uint8_t RxState = 0;
+    
     static uint8_t pRxPacket = 0;
     
     if (USART_GetITStatus(USART1, USART_IT_RXNE) == SET)
     {
         uint8_t RxData = USART_ReceiveData(USART1);
         
-        if (RxData == '\r' || RxData == '\n')  // 收到回车或换行符结束
+        // 优化：仅接收可见字符（避免乱码干扰指令解析）
+        if ((RxData >= ' ' && RxData <= '~') || RxData == '\r' || RxData == '\n')
         {
-            Serial_RxPacket[pRxPacket] = '\0';  // 添加字符串结束符
-            Serial_RxFlag = 1;
-            pRxPacket = 0;
-        }
-        else if (pRxPacket < 99)  // 防止数组越界
-        {
-            Serial_RxPacket[pRxPacket] = RxData;
-            pRxPacket++;
-        }
-        else
-        {
-            pRxPacket = 0;  // 数据包过长，重置
+            if (RxData == '\r' || RxData == '\n')  // 收到结束符
+            {
+                if (pRxPacket > 0)  // 确保有有效数据
+                {
+                    Serial_RxPacket[pRxPacket] = '\0';  // 添加结束符
+                    Serial_RxFlag = 1;
+                    pRxPacket = 0;  // 重置指针
+                }
+            }
+            else if (pRxPacket < 99)  // 防止数组越界（预留1字节存结束符）
+            {
+                Serial_RxPacket[pRxPacket] = RxData;
+                pRxPacket++;
+            }
+            else
+            {
+                pRxPacket = 0;  // 数据超长，重置
+                memset(Serial_RxPacket, 0, sizeof(Serial_RxPacket));  // 清空缓冲区
+            }
         }
         
         USART_ClearITPendingBit(USART1, USART_IT_RXNE);

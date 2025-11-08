@@ -30,3 +30,4 @@
 .\objects\serial.o: .\Library\misc.h
 .\objects\serial.o: D:\keil5\ARM\ARMCC\Bin\..\include\stdio.h
 .\objects\serial.o: D:\keil5\ARM\ARMCC\Bin\..\include\stdarg.h
+.\objects\serial.o: D:\keil5\ARM\ARMCC\Bin\..\include\string.h

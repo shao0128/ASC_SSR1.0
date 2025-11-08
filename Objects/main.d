@@ -37,6 +37,5 @@
 .\objects\main.o: .\Hardware\Motor.h
 .\objects\main.o: .\Hardware\Encoder.h
 .\objects\main.o: .\Hardware\Serial.h
-.\objects\main.o: D:\keil5\ARM\ARMCC\Bin\..\include\stdio.h
 .\objects\main.o: D:\keil5\ARM\ARMCC\Bin\..\include\string.h
 .\objects\main.o: D:\keil5\ARM\ARMCC\Bin\..\include\math.h
