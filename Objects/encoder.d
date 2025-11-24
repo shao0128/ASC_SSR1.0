@@ -28,4 +28,3 @@
 .\objects\encoder.o: .\Library\stm32f10x_usart.h
 .\objects\encoder.o: .\Library\stm32f10x_wwdg.h
 .\objects\encoder.o: .\Library\misc.h
-.\objects\encoder.o: Hardware\Encoder.h

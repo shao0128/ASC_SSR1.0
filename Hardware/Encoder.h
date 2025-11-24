@@ -1,11 +1,9 @@
 #ifndef __ENCODER_H
 #define __ENCODER_H
 
-#include "stm32f10x.h"
-
 void Encoder_Init(void);
-int16_t Encoder_Get_Left(void);
-int16_t Encoder_Get_Right(void);
-void Encoder_Clear_Both(void);
+int16_t Encoder_GetSpeed1();
+int16_t Encoder_GetSpeed2();
 
 #endif
+

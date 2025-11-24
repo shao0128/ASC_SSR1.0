@@ -1,8 +1,8 @@
-#ifndef __MOTOR_H
-#define __MOTOR_H
+#ifndef __MOTER_H
+#define __MOTER_H
 
-void Motor_Init(void);
-void Motor_SetPWM(int8_t PWM);
-void Motor_SetPWM_right(int8_t PWM);
+void Moter_Init();
+void Moter_SetPower1(int8_t Speed);
+void Moter_SetPower2(int8_t Speed);
 
 #endif

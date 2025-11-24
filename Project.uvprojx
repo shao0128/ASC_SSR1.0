@@ -686,14 +686,9 @@
               <FilePath>.\Hardware\OLED.h</FilePath>
             </File>
             <File>
-              <FileName>OLED_Data.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\Hardware\OLED_Data.c</FilePath>
-            </File>
-            <File>
-              <FileName>OLED_Data.h</FileName>
+              <FileName>OLED_Font.h</FileName>
               <FileType>5</FileType>
-              <FilePath>.\Hardware\OLED_Data.h</FilePath>
+              <FilePath>.\Hardware\OLED_Font.h</FilePath>
             </File>
             <File>
               <FileName>Key.c</FileName>
@@ -744,6 +739,36 @@
               <FileName>Serial.h</FileName>
               <FileType>5</FileType>
               <FilePath>.\Hardware\Serial.h</FilePath>
+            </File>
+            <File>
+              <FileName>sensor.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Hardware\sensor.c</FilePath>
+            </File>
+            <File>
+              <FileName>sensor.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Hardware\sensor.h</FilePath>
+            </File>
+            <File>
+              <FileName>PID.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Hardware\PID.c</FilePath>
+            </File>
+            <File>
+              <FileName>PID.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Hardware\PID.h</FilePath>
+            </File>
+            <File>
+              <FileName>image.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Hardware\image.c</FilePath>
+            </File>
+            <File>
+              <FileName>image.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Hardware\image.h</FilePath>
             </File>
           </Files>
         </Group>

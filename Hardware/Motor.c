@@ -1,67 +1,56 @@
 #include "stm32f10x.h"                  // Device header
 #include "PWM.h"
 
-void Motor_Init(void)
+void Moter_Init()
 {
-    /*开启时钟*/
-    RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOB, ENABLE);    //开启GPIOB的时钟
-    
-    GPIO_InitTypeDef GPIO_InitStructure;
-    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
-    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
-    
-    // 左电机：PB12, PB13, PA2(PWM)
-    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_12 | GPIO_Pin_13;
-    GPIO_Init(GPIOB, &GPIO_InitStructure);
-    
-    // 右电机：PB14, PB15, PA1(PWM)  
-    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_14 | GPIO_Pin_15;
-    GPIO_Init(GPIOB, &GPIO_InitStructure);
-    
-    // 初始化后释放所有电机引脚，避免刹车状态
-    GPIO_SetBits(GPIOB, GPIO_Pin_12 | GPIO_Pin_13 | GPIO_Pin_14 | GPIO_Pin_15);
-    
-    PWM_Init();    // 初始化直流电机的底层PWM
+	//初始化控制电机旋转方向的引脚
+	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOB,ENABLE);
+	
+	GPIO_InitTypeDef GPIO_InitStructure;
+	GPIO_InitStructure.GPIO_Mode=GPIO_Mode_Out_PP;
+	GPIO_InitStructure.GPIO_Pin=GPIO_Pin_12 | GPIO_Pin_13;
+	GPIO_InitStructure.GPIO_Speed=GPIO_Speed_50MHz;
+	GPIO_Init(GPIOB,&GPIO_InitStructure);
+	
+	GPIO_InitStructure.GPIO_Mode=GPIO_Mode_Out_PP;
+	GPIO_InitStructure.GPIO_Pin=GPIO_Pin_14 | GPIO_Pin_15;
+	GPIO_InitStructure.GPIO_Speed=GPIO_Speed_50MHz;
+	GPIO_Init(GPIOB,&GPIO_InitStructure);	
+	
+	PWM_Init();
 }
 
-/**
-  * 函    数：左直流电机设置PWM
-  * 参    数：PWM 要设置的PWM值，范围：-100~100（负数为反转）
-  * 返 回 值：无
-  */
-void Motor_SetPWM(int8_t PWM)
+//设置函数启动点击并控制控制电机速度和旋转方向
+void Moter_SetPower1(int8_t Speed)
 {
-    if (PWM >= 0)                            //如果设置正转的PWM
-    {
-        GPIO_ResetBits(GPIOB, GPIO_Pin_12);    //PB12置低电平
-        GPIO_SetBits(GPIOB, GPIO_Pin_13);    //PB13置高电平
-        PWM_SetCompare3(PWM);                //设置PWM占空比 (PA2)
-    }
-    else                                    //否则，即设置反转的速度值
-    {
-        GPIO_SetBits(GPIOB, GPIO_Pin_12);    //PB12置高电平
-        GPIO_ResetBits(GPIOB, GPIO_Pin_13);    //PB13置低电平
-        PWM_SetCompare3(-PWM);                //设置PWM占空比
-    }
+	if (Speed >= 0)
+	{
+		GPIO_SetBits(GPIOB,GPIO_Pin_12);
+		GPIO_ResetBits(GPIOB,GPIO_Pin_13);
+		PWM_SetCompare3(Speed);
+		
+	}
+	else
+	{
+		GPIO_ResetBits(GPIOB,GPIO_Pin_12);
+		GPIO_SetBits(GPIOB,GPIO_Pin_13);
+		PWM_SetCompare3(-Speed);
+	}
 }
 
-/**
-  * 函    数：右直流电机设置PWM
-  * 参    数：PWM 要设置的PWM值，范围：-100~100（负数为反转）
-  * 返 回 值：无
-  */
-void Motor_SetPWM_right(int8_t PWM)
+void Moter_SetPower2(int8_t Speed)
 {
-    if (PWM >= 0)                            //如果设置正转的PWM
-    {
-        GPIO_ResetBits(GPIOB, GPIO_Pin_14);    //PB14置低电平
-        GPIO_SetBits(GPIOB, GPIO_Pin_15);    //PB15置高电平
-        PWM_SetCompare2(PWM);                //设置PWM占空比 (PA1)
-    }
-    else                                    //否则，即设置反转的速度值
-    {
-        GPIO_SetBits(GPIOB, GPIO_Pin_14);    //PB14置高电平
-        GPIO_ResetBits(GPIOB, GPIO_Pin_15);    //PB15置低电平
-        PWM_SetCompare2(-PWM);                //设置PWM占空比
-    }
+	if (Speed >= 0)
+	{
+		GPIO_SetBits(GPIOB,GPIO_Pin_15);
+		GPIO_ResetBits(GPIOB,GPIO_Pin_14);
+		PWM_SetCompare4(Speed);
+		
+	}
+	else
+	{
+		GPIO_ResetBits(GPIOB,GPIO_Pin_15);
+		GPIO_SetBits(GPIOB,GPIO_Pin_14);
+		PWM_SetCompare4(-Speed);
+	}
 }

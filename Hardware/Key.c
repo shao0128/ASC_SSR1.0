@@ -1,47 +1,53 @@
-#include "stm32f10x.h"                  
+#include "stm32f10x.h"                  // Device header
 #include "Delay.h"
+
 
 void Key_Init(void)
 {
-    RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA, ENABLE);
-    RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOB, ENABLE);
-    
-    GPIO_InitTypeDef GPIO_InitStructure;
-    
-    /* 按键1 - PA0 (B10) */
-    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPU;
-    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0;
-    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
-    GPIO_Init(GPIOA, &GPIO_InitStructure);
-    
-    /* 按键2 - PB10 (B11) */
-    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_10;
-    GPIO_Init(GPIOB, &GPIO_InitStructure);
+	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA,ENABLE);
+	
+	GPIO_InitTypeDef GPIO_InitStructure_A;
+	GPIO_InitStructure_A.GPIO_Mode=GPIO_Mode_IPU;
+	GPIO_InitStructure_A.GPIO_Pin=GPIO_Pin_0|GPIO_Pin_1;
+	GPIO_InitStructure_A.GPIO_Speed=GPIO_Speed_50MHz;
+	GPIO_Init(GPIOA,&GPIO_InitStructure_A);
+
 }
 
 uint8_t Key_GetNum(void)
 {
-    uint8_t KeyNum = 0;
-    
-    /* 检测按键1 (PA0 - B10) */
-    if (GPIO_ReadInputDataBit(GPIOA, GPIO_Pin_0) == 0)
-    {
-        Delay_ms(20);
-        while (GPIO_ReadInputDataBit(GPIOA, GPIO_Pin_0) == 0);
-        Delay_ms(20);
-        KeyNum = 1;
-        return KeyNum;
-    }
-    
-    /* 检测按键2 (PB10 - B11) */
-    if (GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_10) == 0)
-    {
-        Delay_ms(20);
-        while (GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_10) == 0);
-        Delay_ms(20);
-        KeyNum = 2;
-        return KeyNum;
-    }
-    
-    return KeyNum;
+	static uint8_t KeyNum = 1;
+	static uint8_t Time_Key;
+	if (GPIO_ReadInputDataBit(GPIOA, GPIO_Pin_0) == 0)
+	{
+		Time_Key++;
+		if (Time_Key>=2) //防止震动间隔20ms后判断是否还在按下状态
+		{
+		Time_Key=0;
+		while (GPIO_ReadInputDataBit(GPIOA, GPIO_Pin_0) == 0);  //等待松手
+		KeyNum = !KeyNum;
+		}
+	}
+	
+	return KeyNum;
 }
+
+uint16_t Key_Speed(void)
+{
+	static uint16_t KeySpeed = 0;
+	static uint8_t Time_Key;
+	if (GPIO_ReadInputDataBit(GPIOA, GPIO_Pin_1) == 0)
+	{
+		Time_Key++;
+		if (Time_Key>=2) //防止震动间隔20ms后判断是否还在按下状态
+		{
+		Time_Key=0;
+		while (GPIO_ReadInputDataBit(GPIOA, GPIO_Pin_1) == 0);  //等待松手
+		KeySpeed+=30;
+		if (KeySpeed>=100) KeySpeed=0;
+		}
+	}
+	
+	return KeySpeed;
+}
+
