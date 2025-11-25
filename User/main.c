@@ -58,61 +58,51 @@ int main(void)
 
 void TIM2_IRQHandler(void)
 {
-	if (TIM_GetITStatus(TIM2, TIM_IT_Update) == SET)
-	{
-		static int16_t cnt;
-		cnt++;
-		
-		if (cnt>=10)
-		{
-		
-			cnt=0;
-			//每10ms读取一次电机旋转速度实际值
-		
-			Speed1=Encoder_GetSpeed1();
-		
-			Speed2=Encoder_GetSpeed2();
-		
-		
-			Key_Num=Key_GetNum();   //监视按键状态
-		
-		
-			Route_Flag=Route_Judge();
-			
-		
-			Speed_Target=Key_Speed();
-			
-		
-		if (Key_Num==0) //按下按键小车启动
+    if (TIM_GetITStatus(TIM2, TIM_IT_Update) == SET)
     {
-		if (Route_Flag==Stringht)
-		{
-			PID_Straight();
-		}
-		else if (Route_Flag==LightLeft)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 
-		{
-			PID_LeftSlight();
-		}
-		else if (Route_Flag==LightRight)
-		{
-			PID_RightSlight();
-		}
-		else if (Route_Flag==StrLeft)
-		{
-			PID_LeftStraight();
-		}
-		else if (Route_Flag==StrRight)
-		{
-			PID_RightStraight();
-		}
-	  }
-		
-		if (Key_Num==1)     //按下按键小车静止
-		{
-			PID_Still();
-		}
-	
-		}
-		TIM_ClearITPendingBit(TIM2, TIM_IT_Update);
-	}
+        static int16_t cnt;
+        cnt++;
+        
+        if (cnt >= 10)
+        {
+            cnt = 0;
+            // 每10ms读取一次电机旋转速度实际值
+            Speed1 = Encoder_GetSpeed1();
+            Speed2 = Encoder_GetSpeed2();
+            
+            Key_Num = Key_GetNum();   // 监视按键状态
+            Route_Flag = Route_Judge(); // 获取路径状态
+            Speed_Target = Key_Speed(); // 获取目标速度
+            
+            if (Key_Num == 0) // 按下按键小车启动
+            {
+                switch(Route_Flag)
+                {
+                    case Stringht:    // 1
+                        PID_Straight();
+                        break;
+                    case LightLeft:   // 2
+                        PID_LeftSlight();
+                        break;
+                    case LightRight:  // 3
+                        PID_RightSlight();
+                        break;
+                    case StrLeft:     // 4
+                        PID_LeftStraight();
+                        break;
+                    case StrRight:    // 5
+                        PID_RightStraight();
+                        break;
+                    default:
+                        PID_Straight(); // 默认直行
+                        break;
+                }
+            }
+            else if (Key_Num == 1) // 按下按键小车静止
+            {
+                PID_Still();
+            }
+        }
+        TIM_ClearITPendingBit(TIM2, TIM_IT_Update);
+    }
 }
