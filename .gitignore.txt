@@ -1,0 +1,19 @@
+.vscode
+.DebugConfig
+
+
+
+# Keil MDK 工程专用忽略规则
+# --- 编译输出文件 ---
+*.o
+*.obj
+*.axf
+*.hex
+*.bin
+*.elf
+*.map
+*.lst
+*.crf
+*.d
+*.dep
+*.lnp
