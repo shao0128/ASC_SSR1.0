@@ -1,6 +1,6 @@
 #include "stm32f10x.h"                  // Device header
 #include "PWM.h"
-
+//这个懒得配宏定义了
 void Moter_Init()
 {
 	//初始化控制电机旋转方向的引脚

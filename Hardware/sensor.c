@@ -29,7 +29,7 @@ uint8_t Route_Judge(void)
     if (Flag_Time >= 2) // 每隔20ms判断一次状态
     {
         Flag_Time = 0;
-        
+//注意这里是检测赛道
         uint8_t PA4 = GPIO_ReadInputDataBit(GPIOA, GPIO_Pin_4);
         uint8_t PA5 = GPIO_ReadInputDataBit(GPIOA, GPIO_Pin_5);
         uint8_t PB0 = GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_0);
@@ -65,7 +65,6 @@ uint8_t Route_Judge(void)
         {
             // 保持当前Route_Flag不变，继续上次的控制策略
         }
-    }
-    
+    }  
     return Route_Flag;
 }

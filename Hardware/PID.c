@@ -28,7 +28,6 @@ static float PID_Calculate(float target, float actual,
     // 输出限幅
     if (output > 100) output = 100;
     if (output < 0) output = 0;
-    
     return output;
 }
 

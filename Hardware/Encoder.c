@@ -1,5 +1,4 @@
 #include "stm32f10x.h"                  // Device header
-
 //电机编码器初始化
 void Encoder_Init(void)
 {

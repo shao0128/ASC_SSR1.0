@@ -2,11 +2,11 @@
 
 void PWM_Init(void)
 {
-	//引脚a2和a3时钟
+	//引脚A2和A3时钟
 	RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM2,ENABLE);
 	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA,ENABLE);
 	
-	//a2和a3引脚配置
+	//A2和A3引脚配置
 	GPIO_InitTypeDef GPIO_InitStructure;
 	GPIO_InitStructure.GPIO_Mode=GPIO_Mode_AF_PP;
 	GPIO_InitStructure.GPIO_Pin=GPIO_Pin_2|GPIO_Pin_3;
@@ -22,8 +22,6 @@ void PWM_Init(void)
 	TIM_TimeBaseInitStructure.TIM_Prescaler=72-1;  //PSC
 	TIM_TimeBaseInitStructure.TIM_RepetitionCounter=0;
 	TIM_TimeBaseInit(TIM2,&TIM_TimeBaseInitStructure);
-	
-	
 	//输出PWM波
 	TIM_OCInitTypeDef TIM_OCInitStructure;
 	

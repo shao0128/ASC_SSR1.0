@@ -12,7 +12,7 @@
 #include "PID.h"
 #include "Sensor.h"
 #include "Image.h"
-
+//判断道路情况
 #define Stringht     1
 #define LightLeft    2
 #define LightRight   3
@@ -20,15 +20,11 @@
 #define StrRight     5
 
 uint8_t Key_Num;   //小车启动按键
-
 uint8_t Route_Flag;  //小车路线判断
 
 //电机旋转速度的实际值
 int16_t Speed1;
 int16_t Speed2;
-
-
-
 
 //电机目标速度
 int16_t Speed_Target;
@@ -39,7 +35,6 @@ int16_t ExtractSpeed(void);
 
 int main(void)
 {
-	
 	Moter_Init();
 	Key_Init();
 	Time_Init();
@@ -47,7 +42,8 @@ int main(void)
 	Serial_Init();
 	OLED_Init();
 	Sensor_Init();
-	
+	OLED_ShowString(2,1,"Sp1:            ");
+	OLED_ShowString(3,1,"Sp2:            ");
 	while (1)
 	{
 		Image_Control();    //实现菜单调速功能
