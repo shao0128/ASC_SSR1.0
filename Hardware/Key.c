@@ -43,8 +43,8 @@ uint16_t Key_Speed(void)
 		{
 		Time_Key=0;
 		while (GPIO_ReadInputDataBit(GPIOA, GPIO_Pin_1) == 0);  //等待松手
-		KeySpeed+=30;
-		if (KeySpeed>=100) KeySpeed=0;
+		KeySpeed+=20;
+		if (KeySpeed>=500) KeySpeed=0;
 		}
 	}
 	

@@ -10,7 +10,7 @@ extern int16_t Speed1;
 extern int16_t Speed2;
 
 // 共用PID参数，便于统一调整
-static float kp = 0.3f, ki = 0.6f, kd = 0.02f;
+static float kp = 1.0f, ki = 1.5f, kd = 0.05f;
 
 // 通用PID计算函数
 static float PID_Calculate(float target, float actual, 
